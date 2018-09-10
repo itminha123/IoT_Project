@@ -32,7 +32,7 @@ public class Notification extends Thread {
     private byte[] buf = new byte[1024];
     private String command;
 
-    private NotificationListener notificationListener;
+    NotificationListener notificationListener;
 
     Notification(NotificationListener notificationListener) {
         this.notificationListener = notificationListener;
