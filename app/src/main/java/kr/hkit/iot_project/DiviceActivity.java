@@ -1,5 +1,6 @@
 package kr.hkit.iot_project;
 
+import android.app.Notification;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class DiviceActivity extends AppCompatActivity {
     Button windowButton;
     Button ledButton;
 
+    Notification notification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +52,29 @@ public class DiviceActivity extends AppCompatActivity {
 
         Button ledButton = findViewById(R.id.ledButton);
         ledButton.setOnClickListener(onLedClickListener);
+
+        notification = new Notification(notificationListener);
+        notification.start();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        pollingTask.cancel(true);
+        notification.done();
     }
 
 
 
-    private View.OnClickListener onTvClickListener = new View.OnClickListener() {
+    View.OnClickListener onTvClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             requestGet("send_arduino", "command=TV", responseArduinoTvListener);
         }
     };
 
-    private View.OnClickListener onAirconClickListener = new View.OnClickListener() {
+    View.OnClickListener onAirconClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             requestGet("send_arduino", "command=AIRCON", responseArduinoAirconListener);
@@ -68,7 +82,7 @@ public class DiviceActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener onWindowClickListener = new View.OnClickListener() {
+    View.OnClickListener onWindowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             requestGet("send_arduino", "command=WINDOW", responseArduinoWindowListener);
@@ -77,7 +91,7 @@ public class DiviceActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener onLedClickListener = new View.OnClickListener() {
+    View.OnClickListener onLedClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             requestGet("send_arduino", "command=LED", responseArduinoLedListener);
@@ -124,20 +138,7 @@ public class DiviceActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    AsyncTask<String, String, String> pollingTask = new AsyncTask<String, String, String>() {
-        @Override
-        protected String doInBackground(String... strings) {
-            while(isCancelled() == false) {
-                requestGet("polling_android", "", responsePollingListener);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-    };
+
 
     Response.Listener<String> responsePollingListener = new Response.Listener<String>() {
         @Override
