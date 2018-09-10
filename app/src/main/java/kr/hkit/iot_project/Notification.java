@@ -19,8 +19,6 @@ public class Notification extends Thread {
         public void onNotification(String command);
     }
 
-    private static final String IP = "192.168.0.4";
-    private static final int PORT = 80;
     private static final String NOTI_TYPE = "android";
 
     private static final int STATE_DONE = 0;
@@ -31,22 +29,21 @@ public class Notification extends Thread {
 
     private byte[] buf = new byte[1024];
     private String command;
+    private String ip;
+    private int port;
 
-    NotificationListener notificationListener;
+    private NotificationListener notificationListener;
 
-    Notification(NotificationListener notificationListener) {
+    Notification(String ip, int port, NotificationListener notificationListener) {
         this.notificationListener = notificationListener;
+        this.ip = ip;
+        this.port = port;
 
-        byte[] sendBuf = NOTI_TYPE.getBytes(Charset.forName("UTF-8"));
+
 
         try {
             socket = new DatagramSocket();
-            InetAddress address = InetAddress.getByName(IP);
-            DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, address, PORT);
-            socket.send(packet);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (SocketException e) {
+        }  catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,6 +54,15 @@ public class Notification extends Thread {
     public void run() {
         super.run();
 
+        byte[] sendBuf = NOTI_TYPE.getBytes(Charset.forName("UTF-8"));
+
+        try {
+            InetAddress address = InetAddress.getByName(this.ip);
+            DatagramPacket packet = new DatagramPacket(sendBuf, sendBuf.length, address, this.port);
+            socket.send(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         state = STATE_RUNNING;
 

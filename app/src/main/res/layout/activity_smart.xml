@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SmartActivity"
-    android:background="@drawable/smartmode">
+    tools:context=".SmartActivity">
 
 
     <LinearLayout
@@ -13,13 +12,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="50dp">
-        <Button
 
+        <Button
+            android:id="@+id/smartButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="50dp"
             android:layout_margin="50dp"
-            android:text="홈 케어"/>
+            android:text="스마트"/>
     </LinearLayout>
 
 

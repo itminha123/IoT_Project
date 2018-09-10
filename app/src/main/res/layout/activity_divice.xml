@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DiviceActivity"
-    android:background="@drawable/bg_gradient"
     android:orientation="vertical"
     >
 
@@ -62,16 +61,6 @@
             android:layout_marginLeft="30dp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/receiveMessageTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,20 +83,5 @@
             android:text="창문"/>
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
-        <Button
-            android:id="@+id/ledButton"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginLeft="30dp"
-            android:text="led"/>
-    </LinearLayout>
 
 </LinearLayout>

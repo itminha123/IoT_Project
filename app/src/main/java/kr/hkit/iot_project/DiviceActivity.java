@@ -1,6 +1,5 @@
 package kr.hkit.iot_project;
 
-import android.app.Notification;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,10 +49,11 @@ public class DiviceActivity extends AppCompatActivity {
         Button windowButton = findViewById(R.id.windowButton);
         windowButton.setOnClickListener(onWindowClickListener);
 
-        Button ledButton = findViewById(R.id.ledButton);
-        ledButton.setOnClickListener(onLedClickListener);
+        AddressPreference ap = new AddressPreference(getBaseContext());
+        String ip = ap.getIp();
+        int port = ap.getPort();
 
-        notification = new Notification(notificationListener);
+        notification = new Notification(ip, port, notificationListener);
         notification.start();
 
     }
@@ -64,6 +64,28 @@ public class DiviceActivity extends AppCompatActivity {
 //        pollingTask.cancel(true);
         notification.done();
     }
+
+    Notification.NotificationListener notificationListener = new Notification.NotificationListener() {
+        @Override
+        public void onNotification(String command) {
+            if(command.equals("tv_on")) {
+                tvImageView.setImageResource(R.drawable.tv_on);
+            } else if(command.equals("tv_off")) {
+                tvImageView.setImageResource(R.drawable.tv_off);
+            }
+            if(command.equals("aircon_on")) {
+                airconImageView.setImageResource(R.drawable.aircon_on);
+            } else if(command.equals("aircon_off")) {
+                airconImageView.setImageResource(R.drawable.aircon_off);
+            }
+            if(command.equals("window_on")) {
+                windowImageView.setImageResource(R.drawable.window_on);
+            } else if(command.equals("window_off")) {
+                windowImageView.setImageResource(R.drawable.window_off);
+            }
+
+        }
+    };
 
 
 
@@ -138,28 +160,6 @@ public class DiviceActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-
-
-    Response.Listener<String> responsePollingListener = new Response.Listener<String>() {
-        @Override
-        public void onResponse(String response) {
-            if(response.equals("tv_on")) {
-                tvImageView.setImageResource(R.drawable.tv_on);
-            } else if(response.equals("tv_off")) {
-                tvImageView.setImageResource(R.drawable.tv_off);
-            }
-            if(response.equals("aircon_on")) {
-                airconImageView.setImageResource(R.drawable.aircon_on);
-            } else if(response.equals("aircon_off")) {
-                airconImageView.setImageResource(R.drawable.aircon_off);
-            }
-            if(response.equals("window_on")) {
-                windowImageView.setImageResource(R.drawable.window_on);
-            } else if(response.equals("window_off")) {
-                windowImageView.setImageResource(R.drawable.window_off);
-            }
-        }
-    } ;
 
 
 }
